@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>page encoding with utf-8</title>
+    <script src="text.js"></script>
+</head>
+<body>
+    <h2>everything normal in utf-8</h2>
+    <p id="normal"></p>
+</body>
+<script>
+    const normal = document.getElementById("normal");
+    async function getFile(url) {
+        const res = await fetch("http://localhost:8000/" + url);
+        const blob = await res.blob();
+        return blob
+    }
+    // const blob = await getFile("text.js");
+    getFile("text.js").then((blob) => {
+        const fr = new FileReader();
+        fr.readAsText(blob);
+        fr.addEventListener("load",
+            () => {
+                normal.textContent = fr.result;
+            });
+    });
+
+</script>
+</html>
